@@ -1,4 +1,4 @@
-<!-- Sorted alphabetically. -->
+# android-maps-utils
 
 * Chris Broadfoot, https://github.com/broady
 * Colin Edwards, https://github.com/DDRBoxman
@@ -11,3 +11,8 @@
 * Emma Yeap, https://github.com/microcat
 * Stefanos Togoulidis, https://github.com/hypest
 * Sean Barbeau, https://github.com/barbeau
+
+# Dronfies Labs adaptation team
+
+* Mathias Betancurt, https://github.com/mbetancurt
+
