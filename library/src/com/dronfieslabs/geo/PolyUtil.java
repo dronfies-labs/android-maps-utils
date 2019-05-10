@@ -16,8 +16,10 @@
 
 package com.dronfieslabs.geo;
 
+import com.dronfieslabs.geo.data.DataPolygon;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -87,7 +89,57 @@ public class PolyUtil {
             mercator(lat3) >= mercatorLatRhumb(lat1, lat2, lng2, lng3);
     }
 
-    public static boolean containsLocation(LatLng point, List<LatLng> polygon, boolean geodesic) {
+    /**
+     * Core feature: Determine if point is inside a polygon.
+     * @param point The point to test
+     * @param polygon The polygon to test against.
+     * @param geodesic Whether to consider segments as geodesic or lineal.
+     * @return
+     */
+
+    public static boolean pointIsInPolygon(LatLng point, DataPolygon polygon, boolean geodesic) {
+        if (!containsLocation(point.latitude, point.longitude, polygon.getOuterBoundaryCoordinates(), geodesic)) {
+            return false;
+        }
+
+        Iterator<List<LatLng>> holesIterator = polygon.getInnerBoundaryCoordinates().iterator();
+        boolean pointIsInHole = false;
+        while (holesIterator.hasNext()) {
+            pointIsInHole = containsLocation(point.latitude, point.longitude, holesIterator.next(), geodesic);
+            if (pointIsInHole) {
+                break;
+            }
+        }
+        return !pointIsInHole;
+    }
+
+    /**
+     * Check if point is inside the polygon but close to its edge - think of this as the intersection of a buffer of given TOLERANCE intersected with the interior of a polygon.
+     * @param point
+     * @param polygon
+     * @param geodesic
+     * @return
+     */
+    public static boolean pointIsCloseToTheBorder(LatLng point, DataPolygon polygon, boolean geodesic, double tolerance) {
+        if (!pointIsInPolygon(point, polygon, geodesic)) {
+            return false;
+        }
+        if (isLocationOnEdge(point, polygon.getOuterBoundaryCoordinates(), geodesic, tolerance)) {
+            return true;
+        }
+        Iterator<List<LatLng>> holesIterator = polygon.getInnerBoundaryCoordinates().iterator();
+        boolean pointIsCloseToHoleEdge = false;
+        while (holesIterator.hasNext()) {
+            pointIsCloseToHoleEdge = isLocationOnEdge(point, holesIterator.next(), geodesic, tolerance);
+            if (pointIsCloseToHoleEdge) {
+                break;
+            }
+        }
+        return pointIsCloseToHoleEdge;
+    }
+
+
+    private static boolean containsLocation(LatLng point, List<LatLng> polygon, boolean geodesic) {
         return containsLocation(point.latitude, point.longitude, polygon, geodesic);
     }
 
@@ -99,7 +151,7 @@ public class PolyUtil {
      * The polygon is formed of great circle segments if geodesic is true, and of rhumb
      * (loxodromic) segments otherwise.
      */
-    public static boolean containsLocation(double latitude, double longitude, List<LatLng> polygon, boolean geodesic) {
+    private static boolean containsLocation(double latitude, double longitude, List<LatLng> polygon, boolean geodesic) {
         final int size = polygon.size();
         if (size == 0) {
             return false;
@@ -221,7 +273,7 @@ public class PolyUtil {
      *          ...,
      *          poly.size()-2 if between poly[poly.size() - 2] and poly[poly.size() - 1]
      */
-    public static int locationIndexOnEdgeOrPath(LatLng point, List<LatLng> poly, boolean closed,
+    private static int locationIndexOnEdgeOrPath(LatLng point, List<LatLng> poly, boolean closed,
                                           boolean geodesic, double toleranceEarth) {
         int size = poly.size();
         if (size == 0) {
@@ -361,7 +413,7 @@ public class PolyUtil {
      *                  simplified poly.
      * @return a simplified poly produced by the Douglas-Peucker algorithm
      */
-    public static List<LatLng> simplify(List<LatLng> poly, double tolerance) {
+    private static List<LatLng> simplify(List<LatLng> poly, double tolerance) {
         final int n = poly.size();
         if (n < 1) {
             throw new IllegalArgumentException("Polyline must have at least 1 point");

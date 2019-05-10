@@ -72,7 +72,7 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
     static KmlPlacemark createPlacemark(XmlPullParser parser)
             throws IOException, XmlPullParserException {
         String styleId = null;
-        KmlStyle inlineStyle = null;
+        //KmlStyle inlineStyle = null;
         HashMap<String, String> properties = new HashMap<String, String>();
         Geometry geometry = null;
         int eventType = parser.getEventType();
@@ -88,12 +88,12 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
                 } else if (parser.getName().equals(EXTENDED_DATA)) {
                     properties.putAll(setExtendedDataProperties(parser));
                 } else if (parser.getName().equals(STYLE_TAG)) {
-                    inlineStyle = KmlStyleParser.createStyle(parser);
+                    //inlineStyle = KmlStyleParser.createStyle(parser);
                 }
             }
             eventType = parser.next();
         }
-        return new KmlPlacemark(geometry, styleId, inlineStyle, properties);
+        return new KmlPlacemark(geometry, styleId, properties);
     }
 
     /**

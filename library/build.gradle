@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 
 dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.android.support:support-annotations:23.1.1'
+    testImplementation 'com.android.support.test:runner:0.4.1'
+    testImplementation 'com.android.support.test:rules:0.4.1'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
 }
 
@@ -16,7 +20,7 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
+            java.srcDirs = ['src/com/dronfieslabs/geo']
             res.srcDirs = ['res']
         }
 

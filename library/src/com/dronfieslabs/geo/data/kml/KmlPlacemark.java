@@ -19,8 +19,6 @@ public class KmlPlacemark extends Feature{
 
     private final String mStyle;
 
-    private final KmlStyle mInlineStyle;
-
     /**
      * Creates a new KmlPlacemark object
      *
@@ -28,11 +26,10 @@ public class KmlPlacemark extends Feature{
      * @param style      style id to store
      * @param properties properties hashmap to store
      */
-    public KmlPlacemark(Geometry geometry, String style, KmlStyle inlineStyle,
+    public KmlPlacemark(Geometry geometry, String style,
                         HashMap<String, String> properties) {
         super(geometry, style, properties);
         mStyle = style;
-        mInlineStyle = inlineStyle;
     }
 
     /**
@@ -44,56 +41,11 @@ public class KmlPlacemark extends Feature{
         return super.getId();
     }
 
-    /**
-     * Gets the inline style that was found
-     *
-     * @return InlineStyle or null if not found
-     */
-    public KmlStyle getInlineStyle() {
-        return mInlineStyle;
-    }
-
-    /**
-     * Gets a PolygonOption
-     *
-     * @return new PolygonOptions
-     */
-    public PolygonOptions getPolygonOptions() {
-         if (mInlineStyle == null){
-            return null;
-        } 
-        return mInlineStyle.getPolygonOptions();
-    }
-
-    /**
-     * Gets a MarkerOption
-     *
-     * @return  A new MarkerOption
-     */
-    public MarkerOptions getMarkerOptions(){
-        if (mInlineStyle == null){
-            return null;
-        }    
-        return mInlineStyle.getMarkerOptions();
-    }
-
-    /**
-     * Gets a PolylineOption
-     *
-     * @return new PolylineOptions
-     */
-    public PolylineOptions getPolylineOptions(){
-        if (mInlineStyle == null){
-            return null;
-        } 
-        return mInlineStyle.getPolylineOptions();
-    }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Placemark").append("{");
         sb.append("\n style id=").append(mStyle);
-        sb.append(",\n inline style=").append(mInlineStyle);
         sb.append("\n}\n");
         return sb.toString();
     }

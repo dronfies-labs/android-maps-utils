@@ -30,8 +30,6 @@ import java.util.HashMap;
 
     private final ArrayList<KmlContainer> mContainers;
 
-    private final HashMap<String, KmlStyle> mStyles;
-
     private final HashMap<String, String> mStyleMaps;
 
     private final HashMap<KmlGroundOverlay, GroundOverlay> mGroundOverlays;
@@ -55,7 +53,7 @@ import java.util.HashMap;
         mParser = parser;
         mPlacemarks = new HashMap<>();
         mContainers = new ArrayList<>();
-        mStyles = new HashMap<>();
+        //mStyles = new HashMap<>();
         mStyleMaps = new HashMap<>();
         mGroundOverlays = new HashMap<>();
     }
@@ -73,13 +71,14 @@ import java.util.HashMap;
                 if (mParser.getName().matches(CONTAINER_REGEX)) {
                     mContainers.add(KmlContainerParser.createContainer(mParser));
                 }
+                /*
                 if (mParser.getName().equals(STYLE)) {
                     KmlStyle style = KmlStyleParser.createStyle(mParser);
                     mStyles.put(style.getStyleId(), style);
                 }
                 if (mParser.getName().equals(STYLE_MAP)) {
                     mStyleMaps.putAll(KmlStyleParser.createStyleMap(mParser));
-                }
+                }*/
                 if (mParser.getName().equals(PLACEMARK)) {
                     mPlacemarks.put(KmlFeatureParser.createPlacemark(mParser), null);
                 }
@@ -91,15 +90,8 @@ import java.util.HashMap;
 
         }
         //Need to put an empty new style
-        mStyles.put(null, new KmlStyle());
     }
 
-    /**
-     * @return List of styles created by the parser
-     */
-    /* package */ HashMap<String, KmlStyle> getStyles() {
-        return mStyles;
-    }
 
     /**
      * @return A list of Kml Placemark objects

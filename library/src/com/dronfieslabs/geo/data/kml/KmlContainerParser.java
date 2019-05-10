@@ -64,7 +64,6 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
         String startTag = parser.getName();
         String containerId = null;
         HashMap<String, String> containerProperties = new HashMap<String, String>();
-        HashMap<String, KmlStyle> containerStyles = new HashMap<String, KmlStyle>();
         HashMap<? extends Feature, Object> containerPlacemarks = new HashMap<>();
         ArrayList<KmlContainer> nestedContainers = new ArrayList<KmlContainer>();
         HashMap<String, String> containerStyleMaps = new HashMap<String, String>();
@@ -86,9 +85,9 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
                 } else if (parser.getName().matches(PROPERTY_REGEX)) {
                     containerProperties.put(parser.getName(), parser.nextText());
                 } else if (parser.getName().equals(STYLE_MAP)) {
-                    setContainerStyleMap(parser, containerStyleMaps);
+                    //setContainerStyleMap(parser, containerStyleMaps);
                 } else if (parser.getName().equals(STYLE)) {
-                    setContainerStyle(parser, containerStyles);
+                    //setContainerStyle(parser, containerStyles);
                 } else if (parser.getName().equals(PLACEMARK)) {
                     setContainerPlacemark(parser, (HashMap<KmlPlacemark, Object>) containerPlacemarks);
                 } else if (parser.getName().equals(EXTENDED_DATA)) {
@@ -101,17 +100,8 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
             eventType = parser.next();
         }
 
-        return new KmlContainer(containerProperties, containerStyles, (HashMap<KmlPlacemark, Object>) containerPlacemarks,
+        return new KmlContainer(containerProperties, (HashMap<KmlPlacemark, Object>) containerPlacemarks,
                 containerStyleMaps, nestedContainers, containerGroundOverlays, containerId);
-    }
-
-    /**
-     * Creates a new style map and assigns values from the XmlPullParser parser
-     * and stores it into the container.
-     */
-    private static void setContainerStyleMap(XmlPullParser parser,
-            HashMap<String, String> containerStyleMap) throws XmlPullParserException, IOException {
-        containerStyleMap.putAll(KmlStyleParser.createStyleMap(parser));
     }
 
     /**
@@ -134,20 +124,6 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
                 }
             }
             eventType = parser.next();
-        }
-    }
-
-    /**
-     * Creates a new default Kml Style with a specified ID (given as an attribute value in the
-     * start tag) and assigns specific elements read from the XmlPullParser to the Style. A new
-     * style is not created if it does not have an ID.
-     */
-    private static void setContainerStyle(XmlPullParser parser,
-            HashMap<String, KmlStyle> containerStyles) throws XmlPullParserException, IOException {
-        if (parser.getAttributeValue(null, "id") != null) {
-            KmlStyle style = KmlStyleParser.createStyle(parser);
-            String styleId = style.getStyleId();
-            containerStyles.put(styleId, style);
         }
     }
 

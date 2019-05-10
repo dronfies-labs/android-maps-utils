@@ -20,30 +20,20 @@ public class KmlContainer {
 
     private final HashMap<String, String> mStyleMap;
 
-    private HashMap<String, KmlStyle> mStyles;
-
     private String mContainerId;
 
-    /*package*/ KmlContainer(HashMap<String, String> properties, HashMap<String, KmlStyle> styles,
+    /*package*/ KmlContainer(HashMap<String, String> properties,
             HashMap<KmlPlacemark, Object> placemarks, HashMap<String, String> styleMaps,
             ArrayList<KmlContainer> containers, HashMap<KmlGroundOverlay, GroundOverlay>
             groundOverlay, String Id) {
         mProperties = properties;
         mPlacemarks = placemarks;
-        mStyles = styles;
         mStyleMap = styleMaps;
         mContainers = containers;
         mGroundOverlays = groundOverlay;
         mContainerId = Id;
     }
 
-    /**
-     * @return Map of Kml Styles, with key values representing style name (ie, color) and
-     * value representing style value (ie #FFFFFF)
-     */
-    /* package */ HashMap<String, KmlStyle> getStyles() {
-        return mStyles;
-    }
 
     /**
      * @param placemarks Placemark for the container to contain
@@ -80,12 +70,7 @@ public class KmlContainer {
         return mContainerId;
     }
 
-    /**
-     * Gets a style based on an ID
-     */
-    public KmlStyle getStyle(String styleID) {
-        return mStyles.get(styleID);
-    }
+
     
      /**
      * Gets a style Id from map based on an ID
@@ -193,7 +178,6 @@ public class KmlContainer {
         sb.append(",\n containers=").append(mContainers);
         sb.append(",\n ground overlays=").append(mGroundOverlays);
         sb.append(",\n style maps=").append(mStyleMap);
-        sb.append(",\n styles=").append(mStyles);
         sb.append("\n}\n");
         return sb.toString();
     }
