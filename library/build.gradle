@@ -38,9 +38,3 @@ android {
 }
 
 task instrumentTest(dependsOn: connectedCheck)
-
-if (System.getenv("JITPACK")) {
-    apply plugin: 'maven'
-} else {
-    apply from: '../gradle-mvn-push.gradle'
-}
