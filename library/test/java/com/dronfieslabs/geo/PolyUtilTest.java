@@ -1,4 +1,4 @@
-package com.dronfieslabs;
+package com.dronfieslabs.geo;
 
 import android.provider.ContactsContract;
 

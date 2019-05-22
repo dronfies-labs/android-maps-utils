@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class GeoJsonFeature extends Feature {
 
-    private final String mId;
+    protected String mId;
 
     private final LatLngBounds mBoundingBox;
 

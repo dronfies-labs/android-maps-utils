@@ -5,7 +5,7 @@ dependencies {
     testImplementation 'com.android.support:support-annotations:23.1.1'
     testImplementation 'com.android.support.test:runner:0.4.1'
     testImplementation 'com.android.support.test:rules:0.4.1'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    implementation 'com.google.android.gms:play-services-maps:11.0.4'
 }
 
 android {
@@ -20,11 +20,11 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src/com/dronfieslabs/geo']
+            java.srcDirs = ['src']
             res.srcDirs = ['res']
         }
 
-        androidTest {
+        test {
             java.srcDirs = ['tests/src']
         }
     }
