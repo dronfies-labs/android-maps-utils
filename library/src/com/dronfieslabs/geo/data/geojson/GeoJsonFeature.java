@@ -1,5 +1,6 @@
 package com.dronfieslabs.geo.data.geojson;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.dronfieslabs.geo.data.Feature;
 import com.dronfieslabs.geo.data.Geometry;
@@ -12,8 +13,7 @@ import java.util.HashMap;
  */
 public class GeoJsonFeature extends Feature {
 
-    protected String mId;
-
+    private final String mId;
     private final LatLngBounds mBoundingBox;
 
     /**

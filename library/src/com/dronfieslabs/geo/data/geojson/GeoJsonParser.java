@@ -67,7 +67,7 @@ public class GeoJsonParser {
 
     private final JSONObject mGeoJsonFile;
 
-    private final ArrayList<GeoJsonFeature> mGeoJsonFeatures;
+    public final ArrayList<GeoJsonFeature> mGeoJsonFeatures;
 
     private LatLngBounds mBoundingBox;
 

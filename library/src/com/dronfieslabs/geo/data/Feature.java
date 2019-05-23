@@ -32,7 +32,7 @@ public class Feature extends Observable {
 
     private final String mId;
 
-    private final Map<String, String> mProperties;
+    private Map<String, String> mProperties;
 
     private Geometry mGeometry;
 
@@ -46,10 +46,10 @@ public class Feature extends Observable {
                           Map<String, String> properties){
         mGeometry = featureGeometry;
         mId = id;
-        if (properties == null) {
-            mProperties = new HashMap<>();
-        } else {
+        if (properties != null) {
             mProperties = properties;
+        } else {
+            mProperties = new HashMap<>();
         }
     }
 
@@ -68,6 +68,7 @@ public class Feature extends Observable {
      * @return property entry set
      */
     public Iterable getProperties() {
+        if (mProperties == null) return null;
         return mProperties.entrySet();
     }
 
